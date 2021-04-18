@@ -884,187 +884,161 @@ void cscands()
 }
 void lookds()//TO BE CHANGED.WRONGCODE
 {
-	int queue[20], head, q_size, i,j, seek=0, diff, max, temp, queue1[20], queue2[20], temp1=0, temp2=0;
-  float avg;
-  int HIGH;
-  cout<<"Enter Number of Tracks"<<endl;
-  cin>>HIGH;
-  HIGH--;
-  int LOW=0;
-
-  printf("%s\t", "Input the number of disk locations");
-  scanf("%d", &q_size);
-
-
-  printf("%s\t", "Enter initial head position");
-  scanf("%d", &head);
-
-  printf("%s\n", "Enter disk positions to read");
-
-  for(i=0; i<q_size; i++){
-    scanf("%d", &temp);
-    //queue1 - elems greater than head
-    if(temp >= head){
-        queue1[temp1] = temp;
-        temp1++;
-    } else {
-        queue2[temp2] = temp;
-        temp2++;
+	int disk_size;
+	cout<<"Enter total number of disks"<<endl;
+	cin>>disk_size;
+	int size;
+	cout<<"Enter Number of Seeks"<<endl;
+	cin>>size;
+	vector<int>arr(size);
+	cout<<"Enter Seek sequence"<<endl;
+	for(int i=0; i<size; i++){cin>>arr[i];}
+	string direction = "right";
+	cout<<"Enter Head position"<<endl;
+	int head;
+	cin>>head;	
+	    int seek_count = 0;
+    int distance, cur_track;
+    vector<int> left, right;
+    vector<int> seek_sequence;
+    for (int i = 0; i < size; i++) {
+        if (arr[i] < head)
+            left.push_back(arr[i]);
+        if (arr[i] > head)
+            right.push_back(arr[i]);
     }
-  }
 
-  //sort queue1 - increasing order
-  for(i=0; i<temp1-1; i++){
-   for(j=i+1; j<temp1; j++){
-       if(queue1[i] > queue1[j]){
-         temp = queue1[i];
-         queue1[i] = queue1[j];
-         queue1[j] = temp;
-       }
+   sort(left.begin(), left.end());
+    sort(right.begin(), right.end());
+ 
+
+    int run = 2;
+    while (run--) {
+        if (direction == "left") {
+            for (int i = left.size() - 1; i >= 0; i--) {
+                cur_track = left[i];
+ 
+                // appending current track to seek sequence
+                seek_sequence.push_back(cur_track);
+ 
+                // calculate absolute distance
+                distance = abs(cur_track - head);
+ 
+                // increase the total count
+                seek_count += distance;
+ 
+                // accessed track is now the new head
+                head = cur_track;
+            }
+            // reversing the direction
+            direction = "right";
+        }
+        else if (direction == "right") {
+            for (int i = 0; i < right.size(); i++) {
+                cur_track = right[i];
+                // appending current track to seek sequence
+                seek_sequence.push_back(cur_track);
+ 
+                // calculate absolute distance
+                distance = abs(cur_track - head);
+ 
+                // increase the total count
+                seek_count += distance;
+ 
+                // accessed track is now new head
+                head = cur_track;
+            }
+            // reversing the direction
+            direction = "left";
+        }
     }
-  }
-
-  //sort queue2 - decreasing order
-  for(i=0; i<temp2-1; i++){
-    for(j=i+1; j<temp2; j++){
-      if(queue2[i] < queue2[j]){
-          temp = queue2[i];
-          queue2[i] = queue2[j];
-          queue2[j] = temp;
-      }
+ 
+    cout << "Seek Cost = "
+         << seek_count << endl;
+ 
+    cout << "Seek Sequence is" << endl;
+ 
+    for (int i = 0; i < seek_sequence.size(); i++) {
+        cout << seek_sequence[i] << " ";
     }
-  }
-
-  if(abs(head-LOW) >= abs(head-HIGH)){
-
-      for(i=1,j=0; j<temp1; i++,j++){
-          queue[i] = queue1[j];
-      }
-
-      for(i=temp1+1, j=0; j<temp2; i++, j++){
-          queue[i] = queue2[j];
-      }
-
-  } else {
-
-      for(i=1,j=0; j<temp2; i++,j++){
-          queue[i] = queue2[j];
-      }
-
-      for(i=temp2+1, j=0; j<temp1; i++, j++){
-          queue[i] = queue1[j];
-      }
-
-  }
-
-  queue[0] = head;
-
-  for(j=0; j<q_size; j++){
-      diff=abs(queue[j+1] - queue[j]);
-        seek += diff;
-        printf("Disk head moves from %d to %d with seek %d\n",queue[j],queue[j+1],diff);
-
-  }
-
-  printf("Total seek time is %d\n", seek);
-  avg = seek/(float)q_size;
-  printf("Average seek time is %f\n", avg);
-
 }
 void clookds()//TO BE CHANGED WRONGCODE
 {
-	int queue[20], head, q_size, i,j, seek=0, diff, max, min, range, temp, queue1[20], queue2[20], temp1=0, temp2=0;
-  float avg;
-  int HIGH;
-  cout<<"Enter Number of Tracks"<<endl;
-  cin>>HIGH;
-  HIGH--;
-  int LOW=0;
-
-  printf("%s\t", "Input the number of disk locations");
-  scanf("%d", &q_size);
-
-  printf("%s\t", "Enter initial head position");
-  scanf("%d", &head);
-
-  printf("%s\n", "Enter disk positions to read");
-
-  for(i=0; i<q_size; i++){
-    scanf("%d", &temp);
-    //queue1 - elems greater than head
-    if(temp >= head){
-      queue1[temp1] = temp;
-      temp1++;
-    } else {
-      queue2[temp2] = temp;
-      temp2++;
-    }
-  }
-
-
-  //sort queue1 - increasing order
-  for(i=0; i<temp1-1; i++){
-    for(j=i+1; j<temp1; j++){
-      if(queue1[i] > queue1[j]){
-        temp = queue1[i];
-        queue1[i] = queue1[j];
-        queue1[j] = temp;
-      }
-    }
-  }
-
-  //sort queue2
-  for(i=0; i<temp2-1; i++){
-    for(j=i+1; j<temp2; j++){
-      if(queue2[i] > queue2[j]){
-        temp = queue2[i];
-        queue2[i] = queue2[j];
-        queue2[j] = temp;
-      }
-    }
-  }
-
-  if(abs(head-LOW) <= abs(head-HIGH)){
-
-    for(i=1,j=temp2-1; j>=0; i++,j--){
-        queue[i] = queue2[j];
+    int disk_size;
+	cout<<"Enter total number of disks"<<endl;
+	cin>>disk_size;
+	int size;
+	cout<<"Enter Number of Seeks"<<endl;
+	cin>>size;
+	vector<int>arr(size);
+	cout<<"Enter Seek sequence"<<endl;
+	for(int i=0; i<size; i++){cin>>arr[i];}
+	string direction = "right";
+	cout<<"Enter Head position"<<endl;
+	int head;
+	cin>>head;	
+	int seek_count = 0;
+    int distance, cur_track;
+    vector<int> left, right;
+    vector<int> seek_sequence;
+ 
+    for (int i = 0; i < size; i++) {
+        if (arr[i] < head)
+            left.push_back(arr[i]);
+        if (arr[i] > head)
+            right.push_back(arr[i]);
     }
 
-    queue[i] = LOW;
-    queue[i+1] = HIGH;
+    sort(left.begin(), left.end());
+    sort(right.begin(), right.end());
+ 
 
-    for(i=temp2+3,j=temp1-1; j>=0; i++,j--){
-        queue[i] = queue1[j];
+    for (int i = 0; i < right.size(); i++) {
+        cur_track = right[i];
+ 
+        // Appending current track to seek sequence
+        seek_sequence.push_back(cur_track);
+ 
+        // Calculate absolute distance
+        distance = abs(cur_track - head);
+ 
+        // Increase the total count
+        seek_count += distance;
+ 
+        // Accessed track is now new head
+        head = cur_track;
     }
+ 
 
-  } else {
-
-    for(i=1,j=0; j<temp1; i++,j++){
-        queue[i] = queue1[j];
+    seek_count += abs(head - left[0]);
+    head = left[0];
+ 
+    // Now service the requests again
+    // which are left
+    for (int i = 0; i < left.size(); i++) {
+        cur_track = left[i];
+ 
+        // Appending current track to seek sequence
+        seek_sequence.push_back(cur_track);
+ 
+        // Calculate absolute distance
+        distance = abs(cur_track - head);
+ 
+        // Increase the total count
+        seek_count += distance;
+ 
+        // Accessed track is now the new head
+        head = cur_track;
     }
-
-    queue[i] = HIGH;
-    queue[i+1] = LOW;
-
-    for(i=temp1+3,j=0; j<temp2; i++,j++){
-        queue[i] = queue2[j];
+ 
+    cout << "Seek Cost = "
+         << seek_count << endl;
+ 
+    cout << "Seek Sequence :" << endl;
+ 
+    for (int i = 0; i < seek_sequence.size(); i++) {
+        cout << seek_sequence[i] << " ";
     }
-
-
-  }
-  queue[0] = head;
-
-  for(j=0; j<q_size; j++){
-    diff=abs(queue[j+1] - queue[j]);
-    seek += diff;
-    printf("Disk head moves from %d to %d with seek %d\n",queue[j],queue[j+1],diff);
-
-  }
-
-
-  printf("Total seek time is %d\n", seek);
-  avg = seek/(float)q_size;
-  printf("Average seek time is %f\n", avg);
 }
 void bankersalgo()
 {
@@ -2369,7 +2343,7 @@ void dp()
     {
         phil[i].id = i + 1;
         phil[i].left_hand = phil[i].right_hand = 0;
-        printf("enter the avrl and bust time of philosopher %d", phil[i].id);
+        printf("Enter Arrival and Burst time of Philospher%d", phil[i].id);
         scanf("%d", &phil[i].arvl);
         scanf("%d", &phil[i].bust);
         phil[i].arvl_i = phil[i].arvl;
@@ -2399,7 +2373,7 @@ void dp()
                 if (phil[i].right->left_hand == 0 && phil[i].right_hand == 0)
                 {
                     phil[i].right_hand = 1;
-                    printf("philosopher %d has taken the right stick and checking for left stick if available \n", phil[i].id);
+                    printf("Philopher %d has taken Right Chopstick \n", phil[i].id);
                 }
             }
         }
@@ -2411,7 +2385,7 @@ void dp()
         }
         if (dead == 0)
         {
-            printf("\ndeadend ......solving!!!! by giving  %d th stick to the philosopher 1\n", users);
+            printf("\nDeadlock has occured. Recovering from deadlock by giving Chopstick %d to  Philosopher 1\n", users);
 
             phil[0].left_hand = 1;
             phil[0].left->right_hand = 0;
@@ -2430,12 +2404,12 @@ void dp()
                 {
                     phil[i].left_hand = 1;
                     phil[i].comp = 0;
-                    printf("philosopher %d has picked up the left stick and right stick and ready to dine\n", phil[i].id);
+                    printf("Philosopher %d has picked up both ther chopsticks and ready to dine\n", phil[i].id);
                 }
                 else
                 {
                     if (p)
-                        printf("philosopher %d is waiting for the left stick till the left  philosopher to complete his/her turn\n", phil[i].id);
+                        printf("Philosopher %d is waiting for the left chop stick. Waiting for philsopher on the left to finish dining\n", phil[i].id);
                 }
             }
         }
@@ -2450,7 +2424,7 @@ void dp()
                 phil[i].bust_i--;
                 if (phil[i].bust_i == 0)
                 {
-                    printf("philosopher %d has finished his job and sticks are placed back\n", phil[i].id);
+                    printf("Philosopher %d has finished dining \n", phil[i].id);
                     p = 1;
                     left--;
                     phil[i].right_hand = 0;
@@ -2471,21 +2445,308 @@ void dp()
     {
         if (phil[i].comp > 0)
             dead = 0;
-        printf(" philosopher id: %d -> arrival %d bust time %d completed at  %d  \n", phil[i].id, phil[i].arvl, phil[i].bust, phil[i].comp);
+        printf("Philosopher: %d -> AT %d BT %d CT  %d  \n", phil[i].id, phil[i].arvl, phil[i].bust, phil[i].comp);
     }
     if (dead)
     {
-        printf("-1 in comp indicates deadend");
+        printf("DEADLOCK OCCURED");
     }
     
 }
-/*Pending and Questions
-  1)Change LOOK and CLOOK 
-  2)Edit Print Stataments of Dining Philosophers
-  3)Should we add MFT too
-  4)Add Next Fit
-  5)Add LRU ,Optimal and MRU
-  6)Test HRRN*/
+int check(vector<int> qf, int pgno){
+    for(int i=0;i<qf.size();i++){
+        if(qf[i]==pgno)
+            return i;
+    }
+    return -1;
+}
+void lrupr()
+{
+    
+    int frames;
+    cout<<"Enter number of frames: ";
+    cin>>frames;
+    
+    vector<int> qf;                     //storing pages in frames
+    unordered_map<int, int> indexes;    //To store least recently used indexes of pages
+
+    int op=1;
+
+    //Declaring vars
+    int curr=0;
+    int faults=0;
+    int total=0;
+
+    //Menu
+    cout<<"\n1. Add page in frame\t2.Stop Adding\n";
+
+    while(op==1){
+        
+        cout<<endl;
+        cin>>op;
+        
+        if(op==1){
+        
+            total++;
+        
+            int pgno;
+            cout<<"Page no = ";
+            cin>>pgno;
+        
+            int ch=check(qf,pgno);      //checking if page already allocated
+        
+            if(ch>=0){
+                cout<<"P"<<pgno<<" is already present in frame"<<ch<<endl;
+                indexes[pgno] = total;                                           // Store the recently used index of each page
+                continue;
+            }
+
+            //Checking if extra frames are present
+            if(qf.size()<frames){
+                qf.push_back(pgno);
+                cout<<"P"<<pgno<<" is accomodated in frame"<<qf.size()-1<<endl;
+                faults++;                                                        //incrementing number of faults
+                indexes[pgno] = total;                                           // Store the recently used index of each page
+                continue;
+            }
+
+            //if the set is full and need to perform lru        
+            int lru = INT_MAX,ix=0,ic=0;
+
+            //finding least recently used page
+            for (ix=0;ix<qf.size();ix++)
+            {
+                if (indexes[qf[ix]] < lru)
+                {
+                    lru = indexes[qf[ix]];
+                    ic=ix;
+                }
+            }
+
+            //Updating the pages
+            cout<<"P"<<pgno<<" is accomodated in frame"<<ic<<" after removing P"<<qf[ic]<<endl;
+            qf[ic]=pgno;
+
+            indexes[pgno] = total;                                           // Store the recently used index of each page
+        
+            faults++;                                                        //incrementing number of faults
+        }
+        else
+            break;
+    }
+    cout<<"\nNo of page faults = "<<faults<<endl;
+    cout<<"Page fault ratio = "<<(float)faults/(float)(total)<<endl;
+    return ;
+
+}
+void mrupr()
+{
+	int frames;
+    cout<<"Enter number of frames: ";
+    cin>>frames;
+    
+    vector<int> qf;                     //storing pages in frames
+    unordered_map<int, int> indexes;    //To store least recently used indexes of pages
+
+    int op=1;
+
+    //Declaring vars
+    int curr=0;
+    int faults=0;
+    int total=0;
+
+    //Menu
+    cout<<"\n1. Add page in frame\t2.Stop Adding\n";
+
+    while(op==1){
+        
+        cout<<endl;
+        cin>>op;
+        
+        if(op==1){
+        
+            total++;
+        
+            int pgno;
+            cout<<"Page no = ";
+            cin>>pgno;
+        
+            int ch=check(qf,pgno);      //checking if page already allocated
+        
+            if(ch>=0){
+                cout<<"P"<<pgno<<" is already present in frame"<<ch<<endl;
+                indexes[pgno] = total;                                           // Store the recently used index of each page
+                continue;
+            }
+
+            //Checking if extra frames are present
+            if(qf.size()<frames){
+                qf.push_back(pgno);
+                cout<<"P"<<pgno<<" is accomodated in frame"<<qf.size()-1<<endl;
+                faults++;                                                        //incrementing number of faults
+                indexes[pgno] = total;                                           // Store the recently used index of each page
+                continue;
+            }
+
+            //if the set is full and need to perform lru        
+            int lru = INT_MIN,ix=0,ic=0;
+
+            //finding least recently used page
+            for (ix=0;ix<qf.size();ix++)
+            {
+                if (indexes[qf[ix]] > lru)
+                {
+                    lru = indexes[qf[ix]];
+                    ic=ix;
+                }
+            }
+
+            //Updating the pages
+            cout<<"P"<<pgno<<" is accomodated in frame"<<ic<<" after removing P"<<qf[ic]<<endl;
+            qf[ic]=pgno;
+
+            indexes[pgno] = total;                                           // Store the recently used index of each page
+        
+            faults++;                                                        //incrementing number of faults
+        }
+        else
+            break;
+    }
+    cout<<"\nNo of page faults = "<<faults<<endl;
+    cout<<"Page fault ratio = "<<(float)faults/(float)(total)<<endl;
+    return ;
+}
+
+void firstfitmft(vector<int>blockSize,int m,vector<int>processSize,int n)
+{
+	int allocation[n];
+  
+    // Initially no block is assigned to any process
+    memset(allocation, -1, sizeof(allocation));
+  
+    // pick each process and find suitable blocks
+    // according to its size ad assign to it
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (blockSize[j] >= processSize[i])
+            {
+                // allocate block j to p[i] process
+                allocation[i] = j;
+  
+                // Reduce available memory in this block.
+                blockSize[j] -= processSize[i];
+  
+                break;
+            }
+        }
+    }
+  
+    cout << "\nProcess No.\tProcess Size\tBlock no.\n";
+    for (int i = 0; i < n; i++)
+    {
+        cout << " " << i+1 << "\t\t" 
+             << processSize[i] << "\t\t";
+        if (allocation[i] != -1)
+            cout << allocation[i] + 1;
+        else
+            cout << "Not Allocated";
+        cout << endl;
+    }
+} 
+void bestfitmft(vector<int>blockSize,int m,vector<int>processSize,int n)
+{
+	int allocation[n];
+  
+    // Initially no block is assigned to any process
+    memset(allocation, -1, sizeof(allocation));
+  
+    // pick each process and find suitable blocks
+    // according to its size ad assign to it
+    for (int i=0; i<n; i++)
+    {
+        // Find the best fit block for current process
+        int bestIdx = -1;
+        for (int j=0; j<m; j++)
+        {
+            if (blockSize[j] >= processSize[i])
+            {
+                if (bestIdx == -1)
+                    bestIdx = j;
+                else if (blockSize[bestIdx] > blockSize[j])
+                    bestIdx = j;
+            }
+        }
+  
+        // If we could find a block for current process
+        if (bestIdx != -1)
+        {
+            // allocate block j to p[i] process
+            allocation[i] = bestIdx;
+  
+            // Reduce available memory in this block.
+            blockSize[bestIdx] -= processSize[i];
+        }
+    }
+  
+    cout << "\nProcess No.\tProcess Size\tBlock no.\n";
+    for (int i = 0; i < n; i++)
+    {
+        cout << "   " << i+1 << "\t\t" << processSize[i] << "\t\t";
+        if (allocation[i] != -1)
+            cout << allocation[i] + 1;
+        else
+            cout << "Not Allocated";
+        cout << endl;
+    }
+}
+void worstfitmft(vector<int>blockSize,int m,vector<int>processSize,int n)
+{
+	int allocation[n];
+  
+    // Initially no block is assigned to any process
+    memset(allocation, -1, sizeof(allocation));
+  
+    // pick each process and find suitable blocks
+    // according to its size ad assign to it
+    for (int i=0; i<n; i++)
+    {
+        // Find the best fit block for current process
+        int wstIdx = -1;
+        for (int j=0; j<m; j++)
+        {
+            if (blockSize[j] >= processSize[i])
+            {
+                if (wstIdx == -1)
+                    wstIdx = j;
+                else if (blockSize[wstIdx] < blockSize[j])
+                    wstIdx = j;
+            }
+        }
+  
+        // If we could find a block for current process
+        if (wstIdx != -1)
+        {
+            // allocate block j to p[i] process
+            allocation[i] = wstIdx;
+  
+            // Reduce available memory in this block.
+            blockSize[wstIdx] -= processSize[i];
+        }
+    }
+  
+    cout << "\nProcess No.\tProcess Size\tBlock no.\n";
+    for (int i = 0; i < n; i++)
+    {
+        cout << "   " << i+1 << "\t\t" << processSize[i] << "\t\t";
+        if (allocation[i] != -1)
+            cout << allocation[i] + 1;
+        else
+            cout << "Not Allocated";
+        cout << endl;
+    }
+}
 int main()
 {
 	
@@ -2496,7 +2757,7 @@ int main()
 		 
 		 cout<<"---OS SIMULATOR---"<<endl;
 	    cout<<"Choose one of the options"<<endl;
-	    cout<<"1.Job Scheduling\n2.Disk Scheduling\n3.Bankers Algorithm\n4.Methods of Contiguous Memory Allocation(Types of Fits)\n5.Page Replacement Algorithms\n6.Virtual Memory Paging Mechanism\n7.Process Synchronization Problems\n"<<endl;
+	    cout<<"1.Job Scheduling\n2.Disk Scheduling\n3.Bankers Algorithm\n4.Methods of Contiguous Memory Allocation(Types of Fits)(MVT)\n5.Page Replacement Algorithms\n6.Virtual Memory Paging Mechanism\n7.Process Synchronization Problems\n8.Methods of Contiguous Memory Allocation(Types of Fits)(MFT)"<<endl;
 		cout<<"Enter Choice"<<endl;
 		cin>>choice;
 		switch(choice)
@@ -2622,11 +2883,11 @@ int main()
 				break;
 
 			}
-			case 4://Types of Fit
+			case 4://Types of Fit(MVT)
 			{
 				system("cls");
 				cout<<"---Methods of Contiguous Memory Allocation(Types of Fits)---"<<endl;
-				cout<<"1.First Fit\n2.Best Fit\n3.Worst Fit\n4.Next Fit"<<endl;
+				cout<<"1.First Fit\n2.Best Fit\n3.Worst Fit\n"<<endl;
 				cin>>algo;
 				switch(algo)
 				{
@@ -2683,12 +2944,12 @@ int main()
 					}
 					case 2:
 					{
-						//lrupr();
+						lrupr();
 						break;
 					}
 					case 3:
 					{
-						//mrupr();
+						mrupr();
 						break;
 					}
 					case 4:
@@ -2735,6 +2996,69 @@ int main()
                     }
                 }
             }
+            case 8://Types of Fit(MFT)
+            {
+
+				system("cls");
+				cout<<"---Methods of Contiguous Memory Allocation(Types of Fits)---"<<endl;
+				cout<<"1.First Fit\n2.Best Fit\n3.Worst Fit\n"<<endl;
+				int m,n;
+
+				cin>>algo;
+				switch(algo)
+				{
+					case 1:
+					{
+						cout<<"Enter No of Partitions"<<endl;
+						cin>>m;
+						cout<<"Enter No of Processes"<<endl;
+						cin>>n;
+					    vector<int>blockSize(m);
+				        vector<int>processSize(n);
+				        cout<<"Enter Size of Each Partition"<<endl;
+				        for(int i=0; i<m; i++){cin>>blockSize[i];}
+				        cout<<"Enter Size of Each Process"<<endl;
+				        for(int i=0; i<n; i++){cin>>processSize[i];}
+
+						firstfitmft(blockSize, m, processSize, n);
+						break;
+					}
+					case 2:
+					{
+						cout<<"Enter No of Partitions"<<endl;
+						cin>>m;
+						cout<<"Enter No of Processes"<<endl;
+						cin>>n;
+					    vector<int>blockSize(m);
+				        vector<int>processSize(n);
+				        cout<<"Enter Size of Each Partition"<<endl;
+				        for(int i=0; i<m; i++){cin>>blockSize[i];}
+				        cout<<"Enter Size of Each Process"<<endl;
+				        for(int i=0; i<n; i++){cin>>processSize[i];}
+						bestfitmft(blockSize, m, processSize, n);
+						break;
+					}
+					case 3:
+					{
+					    cout<<"Enter No of Partitions"<<endl;
+						cin>>m;
+						cout<<"Enter No of Processes"<<endl;
+						cin>>n;
+					    vector<int>blockSize(m);
+				        vector<int>processSize(n);
+				        cout<<"Enter Size of Each Partition"<<endl;
+				        for(int i=0; i<m; i++){cin>>blockSize[i];}
+				        cout<<"Enter Size of Each Process"<<endl;
+				        for(int i=0; i<n; i++){cin>>processSize[i];}
+						worstfitmft(blockSize, m, processSize, n);
+						break;
+					}
+					default:
+					{
+						break;
+					}
+
+                }
 			default:
 			{
 				break;
@@ -2742,4 +3066,5 @@ int main()
 		}
 
 	}
+}
 }
