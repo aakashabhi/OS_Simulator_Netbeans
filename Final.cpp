@@ -1103,6 +1103,7 @@ void bankersalgo()
     cout<<"Answer:"<<endl;
 
     while(complete<processes){
+    	int flag=0;
         for(int i=0; i<processes; i++){
             int t=0;
             if(isComplete[i] == 0){
@@ -1116,6 +1117,7 @@ void bankersalgo()
                 if(t == 0){
                     complete++;
                     isComplete[i]=1;
+                    flag=1;
 
                     if(complete == processes)
                             cout<<"P"<<i+1<<endl;
@@ -1128,6 +1130,11 @@ void bankersalgo()
                     }
                 }
             }
+        }
+        if(flag==0)
+        {
+        	cout<<"DEADLOCK HAS OCCURED"<<endl;
+        	break;
         }
     }
 }
@@ -3108,7 +3115,7 @@ int main()
 			{
 				system("cls");
 				system("color 7d");
-				cout<<"Page Replacement Algorithm"<<endl;
+			
 							    printf("\xB2 \xB2\xB2\xB2\xB2\xB2\xB2\xB2"
 			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
 			           "\xB2\xB2\xB2\xB2\xB2 Types of Fit(MVT) \xB2"
@@ -3119,10 +3126,10 @@ int main()
 			           "_________________________________");
 			    printf("\n|\t\t\t\t\t\t\t\t|");
 			    printf("\n|\t\t\t\t\t\t\t\t|");
-			    printf("\n|\t\t\t 1.FIFO Page Replacement\t\t\t\t|");
-			    printf("\n|\t\t\t 2.LRU Page Replacement\t\t\t\t|");
-			    printf("\n|\t\t\t 3.MRU Page Replacement\t\t\t\t|");
-			     printf("\n|\t\t\t4.Go Back             \t\t\t\t|");
+			    printf("\n|\t\t\t 1.FIFO Page Replacement\t\t|");
+			    printf("\n|\t\t\t 2.LRU Page Replacement\t\t\t|");
+			    printf("\n|\t\t\t 3.MRU Page Replacement\t\t\t|");
+			     printf("\n|\t\t\t4.Go Back             \t\t\t|");
 			    printf("\n|\t\t\t\t\t\t\t\t|");
 			    printf("\n|\t\t\t\t\t\t\t\t|");
 			    printf("\n|\t\t\t\t\t\t\t\t|");
