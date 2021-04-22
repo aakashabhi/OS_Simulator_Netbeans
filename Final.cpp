@@ -604,7 +604,7 @@ void hrrnjob()//TO BE CHECKED ONCE
     // Sorting the structure by arrival times
     sortByArrival(n);
     printf("\nProcess Name\tArrival Time\tBurst Time\tWaiting Time");
-    printf("\tTurnAround Time\t Normalized TT");
+    printf("\tTurnAround Time\t ");
     for (t = p[0].at; t < sum_bt;) {
 
         // Set lower limit to response ratio
@@ -656,7 +656,7 @@ void hrrnjob()//TO BE CHECKED ONCE
         avgwt += p[loc].wt;
         printf("\n%c\t\t%d\t\t", p[loc].name, p[loc].at);
         printf("%d\t\t%d\t\t", p[loc].bt, p[loc].wt);
-        printf("%d\t\t%f", p[loc].tt, p[loc].ntt);
+        printf("%d\t\t", p[loc].tt);
     }
     printf("\nAverage waiting time:%f\n", avgwt / n);
     printf("Average Turn Around time:%f\n", avgtt / n);
@@ -664,9 +664,10 @@ void hrrnjob()//TO BE CHECKED ONCE
 void fcfsds()
 {
 	int n,h;
-    vector<int>track(n);
+    
     cout<<"Enter total tracks:";
     cin>>n;
+    vector<int>track(n);
     cout<<"Enter requested track position:"<<endl;
     for(int i=0; i<n; i++){
         cout<<"\t"<<i+1<<":";
@@ -691,9 +692,10 @@ void fcfsds()
 void sstfds()
 {
 	int n,h;
-    vector<int>track(n);
+   
     cout<<"Enter total tracks:";
     cin>>n;
+    vector<int>track(n);
     cout<<"Enter requested track position:"<<endl;
     for(int i=0; i<n; i++){
         cout<<"\t"<<i+1<<":";
@@ -731,9 +733,10 @@ void sstfds()
 void scands()
 {
 	int n,h;
-    vector<int>track(n);
+    
     cout<<"Enter total tracks:";
     cin>>n;
+    vector<int>track(n);
     cout<<"Enter requested track position:"<<endl;
     for(int i=0; i<n; i++){
         cout<<"\t"<<i+1<<":";
@@ -2124,6 +2127,7 @@ bool comp6(const output &a,const output &b)
 }
 void rnw()
 {
+	t=0;
     vector<output>print;
     int read=0,write=0;
     cout<<"Enter Number of Readers"<<endl;
@@ -2336,14 +2340,14 @@ void dp()
 {
     int i = 0;
     int users;
-    printf("no.of people");
+    printf("Enter No of Philosphers coming to dine\n");
     scanf("%d", &users);
     struct user phil[users];
     for (i = 0; i < users; i++) //input of all processes
     {
         phil[i].id = i + 1;
         phil[i].left_hand = phil[i].right_hand = 0;
-        printf("Enter Arrival and Burst time of Philospher%d", phil[i].id);
+        printf("Enter Arrival and Burst time of Philospher%d\n", phil[i].id);
         scanf("%d", &phil[i].arvl);
         scanf("%d", &phil[i].bust);
         phil[i].arvl_i = phil[i].arvl;
@@ -2385,7 +2389,7 @@ void dp()
         }
         if (dead == 0)
         {
-            printf("\nDeadlock has occured. Recovering from deadlock by giving Chopstick %d to  Philosopher 1\n", users);
+            printf("\nDeadlock has occured. \nGiving  Chopstick %d to  Philosopher 1\n", users);
 
             phil[0].left_hand = 1;
             phil[0].left->right_hand = 0;
@@ -2404,7 +2408,7 @@ void dp()
                 {
                     phil[i].left_hand = 1;
                     phil[i].comp = 0;
-                    printf("Philosopher %d has picked up both ther chopsticks and ready to dine\n", phil[i].id);
+                    printf("Philosopher %d has picked up both his chopsticks and has started to eat\n", phil[i].id);
                 }
                 else
                 {
@@ -2430,7 +2434,6 @@ void dp()
                     phil[i].right_hand = 0;
                     phil[i].left_hand = 0;
                     phil[i].comp = timedp + 1;
-                    //printf
                 }
             }
             else if (phil[i].comp == 0)
@@ -2441,15 +2444,17 @@ void dp()
         timedp++;
     }
     int dead = 1;
+    printf("Philosopher   AT    BT     CT    \n");
+    
     for (i = 0; i < users; i++)
     {
         if (phil[i].comp > 0)
             dead = 0;
-        printf("Philosopher: %d -> AT %d BT %d CT  %d  \n", phil[i].id, phil[i].arvl, phil[i].bust, phil[i].comp);
+        printf("%d             %d      %d      %d     \n", phil[i].id, phil[i].arvl, phil[i].bust, phil[i].comp);
     }
     if (dead)
     {
-        printf("DEADLOCK OCCURED");
+        printf("-------------DEADLOCK OCCURED-------------");
     }
     
 }
@@ -2643,15 +2648,15 @@ void firstfitmft(vector<int>blockSize,int m,vector<int>processSize,int n)
         }
     }
   
-    cout << "\nProcess No.\tProcess Size\tBlock no.\n";
+    cout << "\nPNo.\tP_Size\t\n";
     for (int i = 0; i < n; i++)
     {
         cout << " " << i+1 << "\t\t" 
              << processSize[i] << "\t\t";
         if (allocation[i] != -1)
-            cout << allocation[i] + 1;
+           cout <<"Parition"<< allocation[i] + 1;
         else
-            cout << "Not Allocated";
+            cout << "-";
         cout << endl;
     }
 } 
@@ -2689,15 +2694,14 @@ void bestfitmft(vector<int>blockSize,int m,vector<int>processSize,int n)
             blockSize[bestIdx] -= processSize[i];
         }
     }
-  
-    cout << "\nProcess No.\tProcess Size\tBlock no.\n";
+  cout << "\nPNo.\tP_Size\t\n";
     for (int i = 0; i < n; i++)
     {
         cout << "   " << i+1 << "\t\t" << processSize[i] << "\t\t";
         if (allocation[i] != -1)
-            cout << allocation[i] + 1;
+            cout <<"Parition"<< allocation[i] + 1;
         else
-            cout << "Not Allocated";
+            cout << "-";
         cout << endl;
     }
 }
@@ -2735,15 +2739,14 @@ void worstfitmft(vector<int>blockSize,int m,vector<int>processSize,int n)
             blockSize[wstIdx] -= processSize[i];
         }
     }
-  
-    cout << "\nProcess No.\tProcess Size\tBlock no.\n";
+  cout << "\nPNo.\tP_Size\t\n";
     for (int i = 0; i < n; i++)
     {
         cout << "   " << i+1 << "\t\t" << processSize[i] << "\t\t";
         if (allocation[i] != -1)
-            cout << allocation[i] + 1;
+            cout <<"Parition"<< allocation[i] + 1;
         else
-            cout << "Not Allocated";
+            cout << "-";
         cout << endl;
     }
 }
@@ -2754,116 +2757,237 @@ int main()
 	int algo;
 	while(1)
 	{
-		 
-		 cout<<"---OS SIMULATOR---"<<endl;
-	    cout<<"Choose one of the options"<<endl;
-	    cout<<"1.Job Scheduling\n2.Disk Scheduling\n3.Bankers Algorithm\n4.Methods of Contiguous Memory Allocation(Types of Fits)(MVT)\n5.Page Replacement Algorithms\n6.Virtual Memory Paging Mechanism\n7.Process Synchronization Problems\n8.Methods of Contiguous Memory Allocation(Types of Fits)(MFT)"<<endl;
-		cout<<"Enter Choice"<<endl;
-		cin>>choice;
-		switch(choice)
-		{
-			case 1://Job Scheduling
-			{
-				system("cls");
-				cout<<"---JOB SCHEDULING ALGORITHMS---";
-				cout<<"Choose a Job Scheduling Algorithm"<<endl;
-				cout<<"1.First Come First Serve \n2.Round Robin\n3.Shortest Job First\n4.Longest Job First \n5. Shortest Remaining Time First\n 6.Longest Remaining time first\n7.HRRN Premptive\n"<<endl;
-				
-				cin>>algo;
-				switch(algo)
+		menu:
+		system("cls");
+		system("color 3F");
+		
+		cout<<endl<<endl<<endl<<endl;
+		
+	    
+	    printf("\xB2 \xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+           "\xB2\xB2\xB2\xB2\xB2 OS SIMULATOR \xB2"
+           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+           "\xB2\xB2 \xB2");
+			printf("\n ______________________________"
+			       "_______________________________");
+			printf("\n|\t\t\t\t\t\t\t\t|");
+			printf("\n|\t\t\t\t\t\t\t\t|");
+			    cout<<"\n|\t\t\tChoose one of the options"<<endl;
+			    cout<<"\n|\t\t1.Job Scheduling\t\t\t\t|\n|\t\t2.Disk Scheduling\t\t\t\t|\n|\t\t3.Bankers Algorithm\t\t\t\t|\n|\t\t4.Types of Fits(MVT)\t\t\t\t|\n|\t\t5.Page Replacement Algorithms\t\t\t|\n|\t\t6.Virtual Memory Paging Mechanism\t\t|\n|\t\t7.Process Synchronization Problems\t\t|\n|\t\t8.Types of Fits(MFT)\t\t\t\t|"<<endl;
+				   printf("\n|\t\t\t\t\t\t\t\t|");
+			printf("\n|\t\t\t\t\t\t\t\t|");
+			printf("\n|\t\t\t\t\t\t\t\t|");
+			printf("\n|\t\t\t\t\t\t\t\t|");
+			printf("\n\xB2_________________________________"
+			       "______________________________\xB2\n");
+				cout<<"Enter Choice"<<endl;
+				cin>>choice;
+				switch(choice)
 				{
-					case 1:
-					{
-						
-						fcfsjob();
-
-						break;
-					}
-					case 2:
-					{
-						
-						rrjob();
-						break;
-					}
-					case 3:
-					{
-						
-						sjfjob();
-						break;
-					}
-					case 4:
-					{
-						
-						ljfjob();
-						break;
-					}
-					case 5:
-					{
-						
-						srtfjob();
-						break;
-					}
-					case 6:
-					{
-						
-						lrtfjob();
-						break;
-					}
-					case 7:
-					{
-						
-						hrrnjob();
-						break;
-					}
-					case 8:
+					case 1://Job Scheduling
 					{
 						system("cls");
-						cout<<"Wrong Input"<<endl;
+						system("color 4F");
+							printf("\xB2 \xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+				       "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+				       "\xB2\xB2\xB2\xB2\xB2 JOB SCHEDULING ALGORITHMS \xB2"
+				       "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+				       "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+				       "\xB2\xB2 \xB2");
+						printf("\n ______________________________"
+						       "_________________________________");
+						printf("\n|\t\t\t\t\t\t\t\t|");
+						printf("\n|\t\t\t\t\t\t\t\t|");
+						printf("\n|\t\t 1. First Come First Serve \t\t\t|");
+						printf("\n|\t\t 2. Round Robin\t\t\t\t\t|");
+						printf("\n|\t\t 3. Shortest Job First \t\t\t\t|");
+						printf("\n|\t\t 4. Longest Job First \t\t\t\t|");
+						printf("\n|\t\t 5. Shortest Remaining Time First \t\t|");
+						printf("\n|\t\t 6. Longest Remaining time first \t\t|");
+						printf("\n|\t\t 7. HRRN Premptive \t\t\t\t|");
+						printf("\n|\t\t 8.Go Back          \t\t\t\t|");
+
+						printf("\n|\t\t\t\t\t\t\t\t|");
+						printf("\n|\t\t\t\t\t\t\t\t|");
+						printf("\n|\t\t\t\t\t\t\t\t|");
+						printf("\n|\t\t\t\t\t\t\t\t|");
+						printf("\n\xB2_________________________________"
+						       "______________________________\xB2\n");
+
+						cout<<"Choose a Job Scheduling Algorithm"<<endl;
+						
+						cin>>algo;
+						switch(algo)
+						{
+							case 1:
+							{
+								
+								fcfsjob();
+								cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
+
+								break;
+							}
+							case 2:
+							{
+								
+								rrjob();
+								cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
+								break;
+							}
+							case 3:
+							{
+								
+								sjfjob();
+								cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
+								break;
+							}
+							case 4:
+							{
+								
+								ljfjob();
+								cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
+								break;
+							}
+							case 5:
+							{
+								
+								srtfjob();
+								cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
+								break;
+							}
+							case 6:
+							{
+								
+								lrtfjob();
+								cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
+								break;
+							}
+							case 7:
+							{
+								
+								hrrnjob();
+								cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
+								break;
+							}
+							case 8:
+							{
+								system("cls");
+								goto menu;
+								break;
+							}
+							default:
+							{
+								cout<<"Incorrect Input"<<endl;
+								break;
+							}
+						}
 						break;
 					}
-				}
-				break;
-			}
 			case 2://Disk Scheduling
 			{ 
 				system("cls");
-				cout<<"---Disk Scheduling Algorithms---"<<endl;
+				system("color f4");
+				printf("\xB2 \xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+	           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+	           "\xB2\xB2\xB2\xB2\xB2 DISK SCHEDULING ALGORITHMS \xB2"
+	           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+	           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+	           "\xB2\xB2 \xB2");
+			    printf("\n ______________________________"
+			           "_________________________________");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t 1. FCFS Disk Scheduling \t\t\t|");
+			    printf("\n|\t\t 2. SSTF Disk Scheduling \t\t\t|");
+			    printf("\n|\t\t 3. SCAN Disk Scheduling \t\t\t|");
+			    printf("\n|\t\t 4. CSCAN Disk Scheduling \t\t\t|");
+			    printf("\n|\t\t 5. LOOK Disk Scheduling \t\t\t|");
+			    printf("\n|\t\t 6. CLOOK Disk Scheduling \t\t\t|"); 
+			    printf("\n|\t\t 7. Go Back               \t\t\t|"); 
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n\xB2_________________________________"
+			           "______________________________\xB2\n");
+
 				cout<<"Choose a Disk Scheduling Algorithm"<<endl;
-				cout<<"1.FCFS Disk Scheduling\n2.SSTF Disk Scheduling\n3.SCAN Disk Scheduling\n4.CSCAN Disk Scheduling\n5.LOOK Disk Scheduling\n6.CLOOK CLOOK Disk Scheduling\n";
 				cin>>algo;
 				switch(algo)
 				{
 					case 1:
 					{
 						fcfsds();
+								cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 					}
 					case 2:
 					{
 						sstfds();
+						cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
+
 						break;
 					}
 					case 3:
 					{
 						scands();
+						cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 					}
 					case 4:
 					{
 						cscands();
+						cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 					}
 					case 5:
 					{
 						lookds();
+						cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 					}
 					case 6:
 					{
 						clookds();
+						cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 
 					}
+					case 7:
+					{
+														system("cls");
+								goto menu;
+								break;
+					}
+
 					default:
 					{
 						system("cls");
@@ -2878,116 +3002,241 @@ int main()
 			case 3://Bankers Algorithm
 			{
 				system("cls");
-				cout<<"---Bankers Algorithm"<<endl;
+				system("color 80");
+				printf("\xB2 \xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+	           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+	           "\xB2\xB2\xB2\xB2\xB2 BANKERS ALGORITHM \xB2"
+	           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+	           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+	           "\xB2\xB2 \xB2\n\n\n");
 				bankersalgo();
+												cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 				break;
 
 			}
 			case 4://Types of Fit(MVT)
 			{
 				system("cls");
-				cout<<"---Methods of Contiguous Memory Allocation(Types of Fits)---"<<endl;
-				cout<<"1.First Fit\n2.Best Fit\n3.Worst Fit\n"<<endl;
+				system("color 2e");
+			    printf("\xB2 \xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2\xB2\xB2\xB2 Types of Fit(MVT) \xB2"
+			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2 \xB2");
+			    printf("\n ______________________________"
+			           "_________________________________");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t 1. First Fit\t\t\t\t|");
+			    printf("\n|\t\t\t 2. Best Fit\t\t\t\t|");
+			    printf("\n|\t\t\t 3. WorstFit\t\t\t\t|");
+			    printf("\n|\t\t\t 4. Go Back\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n\xB2_________________________________"
+			           "______________________________\xB2\n");
+			    cout<<"Choose Type of Fit"<<endl;
+
 				cin>>algo;
 				switch(algo)
 				{
 					case 1:
 					{
 						firstfit();
+														cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 					}
 					case 2:
 					{
 						bestfit();
+														cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 					}
 					case 3:
 					{
 						worstfit();
+														cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 					}
 					case 4:
 					{
-						//nextfit();
-						break;
-
+																				system("cls");
+								goto menu;
+								break;
 					}
 					default:
 					{
+						cout<<"Incorrect Input"<<endl;
 						break;
+
 					}
 
 				}
+				break;
 
 			}
 			case 6://VM PagingTechnique
 			{
 				system("cls");
-				cout<<"Virtual Memory Paging Mechanism"<<endl;
+				system("Color 7d");
+			    printf("\xB2 \xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+	           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+	           "\xB2\xB2\xB2\xB2\xB2 Virtual Memory Paging Mechanism \xB2"
+	           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+	           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+	           "\xB2\xB2 \xB2\n\n\n");
+			
 				vmpaging();
+												cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 				break;
 
 			}
 			case 5://Page Replacement Algorithm
 			{
 				system("cls");
+				system("color 7d");
 				cout<<"Page Replacement Algorithm"<<endl;
+							    printf("\xB2 \xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2\xB2\xB2\xB2 Types of Fit(MVT) \xB2"
+			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2 \xB2");
+			    printf("\n ______________________________"
+			           "_________________________________");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t 1.FIFO Page Replacement\t\t\t\t|");
+			    printf("\n|\t\t\t 2.LRU Page Replacement\t\t\t\t|");
+			    printf("\n|\t\t\t 3.MRU Page Replacement\t\t\t\t|");
+			     printf("\n|\t\t\t4.Go Back             \t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n\xB2_________________________________"
+			           "______________________________\xB2\n");
+		
+		
+
 				cout<<"Choose an Algorithm"<<endl;
-				cout<<"1.FIFO Page Replacement\n2.LRU Page Replacement\n3.MRU Page Replacement\n4.Optimal Page Replacement\n";
 				cin>>algo;
 				switch(algo)
 				{
 					case 1:
 					{
 						fifopr();
+																				cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 					}
 					case 2:
 					{
 						lrupr();
+																				cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 					}
 					case 3:
 					{
 						mrupr();
+																				cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 					}
 					case 4:
 					{
-						//optimalpr();
-						break;
+																										system("cls");
+								goto menu;
+								break;
+						
+					
 					}
 					default:
 					{
 						cout<<"Incorrect Input"<<endl;
 						break;
 					}
+
 				}
+					break;
 
 			}
             case 7://Process Synchronization
             {
                 system("cls");
-                cout<<"---Process Synchronization---"<<endl;
+                system("color 01");
+                			   printf("\xB2 \xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2\xB2\xB2\xB2 Process Synchronization \xB2"
+			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2 \xB2");
+			    printf("\n ______________________________"
+			           "_________________________________");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t 1. Producers-Consumers\t\t\t|");
+			    printf("\n|\t\t\t 2. Readers-Writers\t\t\t|");
+			    printf("\n|\t\t\t 3.Dining Philosophers\t\t\t|");
+			    printf("\n|\t\t\t 4.Go Back            \t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n\xB2_________________________________"
+			           "______________________________\xB2\n");
                 cout<<"Choose a Synchronization Problem"<<endl;
-                cout<<"1.Producers-Consumers Problem\n2.Readers-Writers Problem\n3.Dining Philosophers Problem\n"<<endl;
+
                 cin>>algo;
                 switch(algo)
                 {
                     case 1:
                     {
                         pnc();
+                        																				cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
                         break;
                     }
                     case 2:
                     {
                         rnw();
+                        																				cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
                         break;
                     }
                     case 3:
                     {
                         dp();
+                        																				cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
                         break;
+                    }
+                    case 4:
+                    {
+                       
+																										system("cls");
+								goto menu;
+								break;
                     }
                     default:
                     {
@@ -2995,13 +3244,35 @@ int main()
                         break;
                     }
                 }
+                break;
+
             }
             case 8://Types of Fit(MFT)
             {
 
 				system("cls");
-				cout<<"---Methods of Contiguous Memory Allocation(Types of Fits)---"<<endl;
-				cout<<"1.First Fit\n2.Best Fit\n3.Worst Fit\n"<<endl;
+				system("color e0");
+			   printf("\xB2 \xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2\xB2\xB2\xB2 Types of Fit(MFT) \xB2"
+			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2"
+			           "\xB2\xB2 \xB2");
+			    printf("\n ______________________________"
+			           "_________________________________");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t 1. First Fit\t\t\t\t|");
+			    printf("\n|\t\t\t 2. Best Fit\t\t\t\t|");
+			    printf("\n|\t\t\t 3. WorstFit\t\t\t\t|");
+			     printf("\n|\t\t\t 4. Go Back\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n|\t\t\t\t\t\t\t\t|");
+			    printf("\n\xB2_________________________________"
+			           "______________________________\xB2\n");
+			    cout<<"Choose Type of Fit"<<endl;
 				int m,n;
 
 				cin>>algo;
@@ -3021,6 +3292,9 @@ int main()
 				        for(int i=0; i<n; i++){cin>>processSize[i];}
 
 						firstfitmft(blockSize, m, processSize, n);
+																									cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 					}
 					case 2:
@@ -3036,6 +3310,9 @@ int main()
 				        cout<<"Enter Size of Each Process"<<endl;
 				        for(int i=0; i<n; i++){cin>>processSize[i];}
 						bestfitmft(blockSize, m, processSize, n);
+																									cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
 					}
 					case 3:
@@ -3051,10 +3328,20 @@ int main()
 				        cout<<"Enter Size of Each Process"<<endl;
 				        for(int i=0; i<n; i++){cin>>processSize[i];}
 						worstfitmft(blockSize, m, processSize, n);
+																									cout<<"Enter . to continue..."<<endl;
+								char c;
+								cin>>c;
 						break;
+					}
+					case 4:
+					{
+																																system("cls");
+								goto menu;
+								break;
 					}
 					default:
 					{
+						cout<<"Incorrect Input"<<endl;
 						break;
 					}
 
