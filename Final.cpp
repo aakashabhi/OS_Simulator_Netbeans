@@ -760,17 +760,17 @@ void scands()
             }
         }
         for(int i=x+1; i<n; i++){
-            seek_time+=track[i]-h;
+            seek_time+=abs(track[i]-h);
             h=track[i];
             seek_sequence.push_back(track[i]);
         }
         if(h!=b){
-            seek_time+=b-h;
+            seek_time+=abs(b-h);
             h=b;
             seek_sequence.push_back(b);
         }
         for(int i=0; i<=x; i++){
-            seek_time+=h-track[i];
+            seek_time+=abs(h-track[i]);
             h=track[i];
             seek_sequence.push_back(track[i]);
         }
@@ -783,17 +783,17 @@ void scands()
             }
         }
         for(int i=x; i>=0; i--){
-            seek_time+=h-track[i];
+            seek_time+=abs(h-track[i]);
             h=track[i];
             seek_sequence.push_back(track[i]);
         }
         if(h!=a){
-            seek_time+=h-a;
+            seek_time+=abs(h-a);
             h=a;
             seek_sequence.push_back(a);
         }
         for(int i=x+1; i<n; i++){
-            seek_time+=track[i]-h;
+            seek_time+=abs(track[i]-h);
             h=track[i];
             seek_sequence.push_back(track[i]);
         }
@@ -835,19 +835,19 @@ void cscands()
             }
         }
         for(int i=x+1; i<n; i++){
-            seek_time+=track[i]-h;
+            seek_time+=abs(track[i]-h);
             h=track[i];
             seek_sequence.push_back(track[i]);
         }
         if(h<=b){
-            seek_time+=b-h;
+            seek_time+=abs(b-h);
             seek_sequence.push_back(b);
             seek_time+=b-a;
             h=a;
             seek_sequence.push_back(a);
         }
         for(int i=0; i<=x; i++){
-            seek_time+=track[i]-h;
+            seek_time+=abs(track[i]-h);
             h=track[i];
             seek_sequence.push_back(track[i]);
         }
@@ -865,9 +865,9 @@ void cscands()
             seek_sequence.push_back(track[i]);
         }
         if(h>=a){
-            seek_time+=h-a;
+            seek_time+=abs(h-a);
             seek_sequence.push_back(a);
-            seek_time+=b-a;
+            seek_time+=abs(b-a);
             h=b;
             seek_sequence.push_back(b);
         }
@@ -885,7 +885,7 @@ void cscands()
         cout<<seek_sequence[i]<<" ";
     }
 }
-void lookds()//TO BE CHANGED.WRONGCODE
+void lookds()
 {
 	int disk_size;
 	cout<<"Enter total number of disks"<<endl;
@@ -920,38 +920,34 @@ void lookds()//TO BE CHANGED.WRONGCODE
         if (direction == "left") {
             for (int i = left.size() - 1; i >= 0; i--) {
                 cur_track = left[i];
- 
-                // appending current track to seek sequence
+
                 seek_sequence.push_back(cur_track);
  
-                // calculate absolute distance
+
                 distance = abs(cur_track - head);
  
-                // increase the total count
+
                 seek_count += distance;
  
-                // accessed track is now the new head
+
                 head = cur_track;
             }
-            // reversing the direction
+
             direction = "right";
         }
         else if (direction == "right") {
             for (int i = 0; i < right.size(); i++) {
                 cur_track = right[i];
-                // appending current track to seek sequence
+
                 seek_sequence.push_back(cur_track);
- 
-                // calculate absolute distance
+
                 distance = abs(cur_track - head);
- 
-                // increase the total count
+
                 seek_count += distance;
- 
-                // accessed track is now new head
+
                 head = cur_track;
             }
-            // reversing the direction
+
             direction = "left";
         }
     }
@@ -965,7 +961,7 @@ void lookds()//TO BE CHANGED.WRONGCODE
         cout << seek_sequence[i] << " ";
     }
 }
-void clookds()//TO BE CHANGED WRONGCODE
+void clookds()
 {
     int disk_size;
 	cout<<"Enter total number of disks"<<endl;
@@ -999,38 +995,29 @@ void clookds()//TO BE CHANGED WRONGCODE
     for (int i = 0; i < right.size(); i++) {
         cur_track = right[i];
  
-        // Appending current track to seek sequence
         seek_sequence.push_back(cur_track);
  
-        // Calculate absolute distance
         distance = abs(cur_track - head);
  
-        // Increase the total count
         seek_count += distance;
  
-        // Accessed track is now new head
         head = cur_track;
     }
  
 
     seek_count += abs(head - left[0]);
     head = left[0];
- 
-    // Now service the requests again
-    // which are left
+
     for (int i = 0; i < left.size(); i++) {
         cur_track = left[i];
  
-        // Appending current track to seek sequence
+
         seek_sequence.push_back(cur_track);
  
-        // Calculate absolute distance
         distance = abs(cur_track - head);
  
-        // Increase the total count
         seek_count += distance;
  
-        // Accessed track is now the new head
         head = cur_track;
     }
  
