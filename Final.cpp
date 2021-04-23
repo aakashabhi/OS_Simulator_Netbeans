@@ -2633,21 +2633,19 @@ void firstfitmft(vector<int>blockSize,int m,vector<int>processSize,int n)
 {
 	int allocation[n];
   
-    // Initially no block is assigned to any process
+
     memset(allocation, -1, sizeof(allocation));
   
-    // pick each process and find suitable blocks
-    // according to its size ad assign to it
+
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < m; j++)
         {
             if (blockSize[j] >= processSize[i])
             {
-                // allocate block j to p[i] process
+
                 allocation[i] = j;
-  
-                // Reduce available memory in this block.
+
                 blockSize[j] -= processSize[i];
   
                 break;
@@ -2671,34 +2669,28 @@ void bestfitmft(vector<int>blockSize,int m,vector<int>processSize,int n)
 {
 	int allocation[n];
   
-    // Initially no block is assigned to any process
     memset(allocation, -1, sizeof(allocation));
   
-    // pick each process and find suitable blocks
-    // according to its size ad assign to it
     for (int i=0; i<n; i++)
     {
-        // Find the best fit block for current process
-        int bestIdx = -1;
+        int index = -1;
         for (int j=0; j<m; j++)
         {
             if (blockSize[j] >= processSize[i])
             {
-                if (bestIdx == -1)
-                    bestIdx = j;
-                else if (blockSize[bestIdx] > blockSize[j])
-                    bestIdx = j;
+                if (index == -1)
+                    index = j;
+                else if (blockSize[index] > blockSize[j])
+                    index = j;
             }
         }
-  
-        // If we could find a block for current process
-        if (bestIdx != -1)
+
+        if (index != -1)
         {
-            // allocate block j to p[i] process
-            allocation[i] = bestIdx;
-  
-            // Reduce available memory in this block.
-            blockSize[bestIdx] -= processSize[i];
+
+            allocation[i] = index;
+
+            blockSize[index] -= processSize[i];
         }
     }
   cout << "\nPNo.\tP_Size\t\n";
@@ -2716,34 +2708,30 @@ void worstfitmft(vector<int>blockSize,int m,vector<int>processSize,int n)
 {
 	int allocation[n];
   
-    // Initially no block is assigned to any process
+
     memset(allocation, -1, sizeof(allocation));
-  
-    // pick each process and find suitable blocks
-    // according to its size ad assign to it
+
     for (int i=0; i<n; i++)
     {
-        // Find the best fit block for current process
-        int wstIdx = -1;
+        int index = -1;
         for (int j=0; j<m; j++)
         {
             if (blockSize[j] >= processSize[i])
             {
-                if (wstIdx == -1)
-                    wstIdx = j;
-                else if (blockSize[wstIdx] < blockSize[j])
-                    wstIdx = j;
+                if (index == -1)
+                    index = j;
+                else if (blockSize[index] < blockSize[j])
+                    index = j;
             }
         }
-  
-        // If we could find a block for current process
-        if (wstIdx != -1)
+
+        if (index != -1)
         {
-            // allocate block j to p[i] process
-            allocation[i] = wstIdx;
+
+            allocation[i] = index;
   
-            // Reduce available memory in this block.
-            blockSize[wstIdx] -= processSize[i];
+
+            blockSize[index] -= processSize[i];
         }
     }
   cout << "\nPNo.\tP_Size\t\n";
